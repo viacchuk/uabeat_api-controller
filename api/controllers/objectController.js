@@ -7,7 +7,7 @@ require('dotenv').config();
 const objectLogger = logger(
     process.env.LOGGER_LEVEL, 
     loggerInstance, 
-    "ObjectDev CONTROLLER"
+    "Object CONTROLLER"
     );
 
 class ObjectController {
@@ -22,9 +22,9 @@ class ObjectController {
                 }
                 const where = { id };
 
-                const query = await dbController.read('ObjectDev', where);
+                const query = await dbController.read('Object', where);
 
-                const result = query.map(({ name, info, photo }) => ({ name, info, photo }));
+                const result = query.map(({ name, info, photo, price, status }) => ({ name, info, photo, price, status }));
 
                 if (result.length < 1) {
                     return next(ApiError.badRequest('Not found'));
@@ -44,13 +44,13 @@ class ObjectController {
         try {
             objectLogger.silly(req.body);
             if (req.body.key === process.env.API_DEV) {
-                let { name, info, photo } = req.body;
+                let { name, info, photo, price, status } = req.body;
 
                 if (!info || !photo || !name) {
                     return next(ApiError.badRequest('Incorrect info or photo or name'));
                 }
 
-                const query = await dbController.create('ObjectDev', { name, info, photo });
+                const query = await dbController.create('Object', { name, info, photo, price, status });
     
                 return res.status(200).json("Object added");
             } else {

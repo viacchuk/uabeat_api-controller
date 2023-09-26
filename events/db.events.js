@@ -1,10 +1,10 @@
-const { ObjectDev } = require("../db/models");
+const { Object } = require("../db/models");
 
 class DbEvents {
     async create(table, item) {
-        let { name, info, photo } = item;
-        if (table === 'ObjectDev')
-            await ObjectDev.create({ name, info, photo });
+        let { name, info, photo, price, status } = item;
+        if (table === 'Object')
+            await Object.create({ name, info, photo, price, status });
     }
 
     async read(table, where, limit, offset) {
@@ -20,8 +20,8 @@ class DbEvents {
             options.offset = offset;
         }
 
-        if (table === 'CatalogDev' || table === 'ObjectDev') {
-            const result = await ObjectDev.findAll(options);
+        if (table === 'Object') {
+            const result = await Object.findAll(options);
             return result;
         }
 
@@ -29,18 +29,18 @@ class DbEvents {
     }
 
     async update(table, where, item) {
-        if (table === 'ObjectDev')
-            await ObjectDev.update({ interval: item }, { where });
+        if (table === 'Object')
+            await Object.update({ interval: item }, { where });
     }
 
     async delete(table, where) {
-        if (table === 'ObjectDev')
-            await ObjectDev.destroy({ where });
+        if (table === 'Object')
+            await Object.destroy({ where });
     }
 
     async count(table) {
-        if (table === 'ObjectDev') {
-            const result = await ObjectDev.count();
+        if (table === 'Object') {
+            const result = await Object.count();
 
             return result;
         }

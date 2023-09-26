@@ -7,7 +7,7 @@ require('dotenv').config();
 const catalogLogger = logger(
     process.env.LOGGER_LEVEL, 
     loggerInstance, 
-    "CatalogDev CONTROLLER"
+    "Catalog CONTROLLER"
     );
 
 class CatalogController {
@@ -17,13 +17,15 @@ class CatalogController {
             if (req.body.key === process.env.API_DEV) {
                 let { page, where } = req.body;
 
-                const count = await dbController.count('ObjectDev');
+                const count = await dbController.count('Object');
                 const limit = 10;
-                const offset = count-page*limit;
+                const pages = Math.ceil(count/10);
+                let offset = null;
+                if (page != pages) offset = count-page*limit;
 
-                const data = await dbController.read('CatalogDev', where, limit, offset);
+                const data = await dbController.read('Object', where, limit, offset);
 
-                return res.status(200).json(data);
+                return res.status(200).json(data.reverse());
             } else {
                 return next(ApiError.badRequest('Incorrect KEY'));
             }
@@ -37,7 +39,7 @@ class CatalogController {
         try {
             catalogLogger.silly(req.body);
             if (req.body.key === process.env.API_DEV) {
-                const data = await dbController.count('ObjectDev');
+                const data = await dbController.count('Object');
                 const result = Math.ceil(data/10);
 
                 return res.status(200).json(result);
