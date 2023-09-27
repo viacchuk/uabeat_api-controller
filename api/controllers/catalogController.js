@@ -14,7 +14,7 @@ class CatalogController {
     async get(req, res, next) {
         try {
             catalogLogger.silly(req.body);
-            if (req.body.key === process.env.API_DEV) {
+            if (req.body.key === process.env.API_KEY) {
                 let { page, where } = req.body;
 
                 const count = await dbController.count('Object');
@@ -38,7 +38,7 @@ class CatalogController {
     async pages(req, res, next) {
         try {
             catalogLogger.silly(req.body);
-            if (req.body.key === process.env.API_DEV) {
+            if (req.body.key === process.env.API_KEY) {
                 const data = await dbController.count('Object');
                 const result = Math.ceil(data/10);
 
