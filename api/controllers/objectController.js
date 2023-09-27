@@ -14,7 +14,7 @@ class ObjectController {
     async get(req, res, next) {
         try {
             objectLogger.silly(req.body);
-            if (req.body.key === process.env.API_DEV) {
+            if (req.body.key === process.env.API_KEY) {
                 let { id } = req.body;
 
                 if (!id || id < 1) {
@@ -43,7 +43,7 @@ class ObjectController {
     async add(req, res, next) {
         try {
             objectLogger.silly(req.body);
-            if (req.body.key === process.env.API_DEV) {
+            if (req.body.key === process.env.API_KEY) {
                 let { name, info, photo, price, status } = req.body;
 
                 if (!info || !photo || !name) {
